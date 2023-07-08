@@ -1,36 +1,71 @@
 ---
 export interface Props {
-	title: string;
+    title: string;
 }
 
+import "css-to-go";
 const { title } = Astro.props;
+import { getUser } from "../auth";
+const user = await getUser(Astro.request);
+//console.log("Astro.url", Astro.url);
+const isShowLoginLink = Astro.url.pathname != "/login";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="Astro description">
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="description" content="Astro description" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <title>{title}</title>
+    </head>
+    <body class="ctg-root ctg-container ctg-theme--light">
+        <header>
+            <div class="header-toprow">
+                <h1>Rogntudjuuu</h1>
+                {
+                    user ? (
+                        <form action="/api/logout" method="POST">
+                            <button id="apa" type="submit">
+                                {" "}
+                                Logout
+                            </button>
+                        </form>
+                    ) : (
+                        isShowLoginLink && <a href="/login">Login</a>
+                    )
+                }
+            </div>
+            <nav>
+                <a href="/">Home</a>
+                {user && <a href="/dashboard">Dashboard</a>}
+            </nav>
+        </header>
+        <main>
+            <slot />
+        </main>
+        <footer></footer>
+    </body>
 </html>
-<style is:global>
-	:root {
-		--accent: 124, 58, 237;
-		--accent-gradient: linear-gradient(45deg, rgb(var(--accent)), #da62c4 30%, white 60%);
-	}
-	html {
-		font-family: system-ui, sans-serif;
-		background-color: #F6F6F6;
-	}
-	code {
-		font-family: Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
-			Bitstream Vera Sans Mono, Courier New, monospace;
-	}
+
+<style>
+    .header-toprow {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    nav {
+        display: flex;
+        gap: 2em;
+        justify-content: center;
+    }
+    nav a {
+        font-weight: bold;
+        font-size: 1.3rem !important;
+    }
+
+    form {
+        display: inline-block;
+    }
 </style>
