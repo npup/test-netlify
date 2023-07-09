@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef } from "react";
 import { supabase } from "../auth";
-const REDIRECT_URL = import.meta.env.PUBLIC_SUPABASE_KEY;
+const REDIRECT_URL = import.meta.env.PUBLIC_SUPABASE_REDIRECT_URL;
 
 export function LoginForm() {
     useEffect(() => {
