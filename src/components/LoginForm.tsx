@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useRef } from "react";
 import { supabase } from "../auth";
+const REDIRECT_URL = import.meta.env.PUBLIC_SUPABASE_KEY;
 
 export function LoginForm() {
     useEffect(() => {
@@ -55,7 +56,7 @@ export function LoginForm() {
         const { error } = await supabase.auth.signInWithOtp({
             email,
             options: {
-                emailRedirectTo: "http://localhost:3000/login",
+                emailRedirectTo: REDIRECT_URL,
             },
         });
         if (error) {
