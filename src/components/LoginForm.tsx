@@ -56,23 +56,27 @@ export function LoginForm() {
     }, []);
     const emailRef = useRef<HTMLInputElement>(null);
     async function handleSubmit(e: FormEvent) {
-        e.preventDefault();
-        const { current: emailField } = emailRef;
-        if (!emailField) {
-            return;
-        }
-        const { value: email } = emailField;
-        const { error } = await supabase.auth.signInWithOtp({
-            email,
-            options: {
-                emailRedirectTo: REDIRECT_URL,
-            },
-        });
-        if (error) {
-            console.log("Err, ", error);
-            alert(`Email not sent (${error.message})`);
-        } else {
-            alert("Check your email for login link!");
+        try {
+            e.preventDefault();
+            const { current: emailField } = emailRef;
+            if (!emailField) {
+                return;
+            }
+            const { value: email } = emailField;
+            const { error } = await supabase.auth.signInWithOtp({
+                email,
+                options: {
+                    emailRedirectTo: REDIRECT_URL,
+                },
+            });
+            if (error) {
+                console.log("Err, ", error);
+                alert(`Email not sent (${error.message})`);
+            } else {
+                alert("Check your email for login link!");
+            }
+        } catch (err) {
+            console.error("WTF", err);
         }
     }
     return (
