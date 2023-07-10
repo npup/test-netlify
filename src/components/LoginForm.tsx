@@ -1,16 +1,18 @@
 import { FormEvent, useEffect, useRef } from "react";
-import { supabase } from "../auth";
-const REDIRECT_URL = import.meta.env.PUBLIC_SUPABASE_REDIRECT_URL;
-const AUTH_COOKIE_NAME = import.meta.env.PUBLIC_AUTH_COOKIE_NAME;
-const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL;
-const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_KEY;
+import {
+    supabase,
+    AUTH_REDIRECT_URL,
+    AUTH_COOKIE_NAME,
+    AUTH_SUPABASE_URL,
+    AUTH_SUPABASE_KEY,
+} from "../auth";
 
 export function LoginForm() {
     console.log("rendering loginform", {
-        REDIRECT_URL,
+        AUTH_REDIRECT_URL,
         AUTH_COOKIE_NAME,
-        SUPABASE_URL,
-        SUPABASE_KEY,
+        AUTH_SUPABASE_URL,
+        AUTH_SUPABASE_KEY,
     });
     useEffect(() => {
         const hashParams = window.location.hash
@@ -66,7 +68,7 @@ export function LoginForm() {
             const { error } = await supabase.auth.signInWithOtp({
                 email,
                 options: {
-                    emailRedirectTo: encodeURIComponent(REDIRECT_URL),
+                    emailRedirectTo: encodeURIComponent(AUTH_REDIRECT_URL),
                 },
             });
             if (error) {
