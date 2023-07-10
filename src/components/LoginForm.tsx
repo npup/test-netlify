@@ -68,7 +68,7 @@ export function LoginForm() {
             const { error } = await supabase.auth.signInWithOtp({
                 email,
                 options: {
-                    emailRedirectTo: encodeURIComponent(AUTH_REDIRECT_URL),
+                    emailRedirectTo: AUTH_REDIRECT_URL,
                 },
             });
             if (error) {
